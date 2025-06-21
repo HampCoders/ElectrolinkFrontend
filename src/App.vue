@@ -20,7 +20,7 @@ export default {
       items_Technician: [
         { label: "Inicio", to: "/homeTechnician", icon: "pi pi-home" },
         { label: "Inventario", to: "/inventory-component", icon: "pi pi-info-circle" },
-        { label: "DashBoard", to: "/dashboard-technician", icon: "pi pi-star" },
+        { label: "DashBoard", to: "/analytics", icon: "pi pi-star" },
       ],
     };
   },

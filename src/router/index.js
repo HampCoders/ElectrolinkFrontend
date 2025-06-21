@@ -7,12 +7,15 @@ const HomeTechnicianComponent = () => import('../public/pages/homeTechnician.com
 const AboutComponent = () => import('../public/pages/about.component.vue')
 const PageNotFoundComponent = () => import('../public/pages/page-not-found.component.vue')
 
+const AnalyticsManagementComponent = () => import('../analitycsDashboard/pages/analytics-management.component.vue')
+
 // PONER LOS COMPONENTES DE LOS BOUNDED CONTEXTS AQUÍ
 
 
 const routes = [
   { path: '/homeTechnician', name: 'homeTechnician', component: HomeTechnicianComponent, meta: { title: 'Home Contracting' } },
   { path: '/homeContracting', name: 'homeContracting', component: HomeContractingComponent, meta: { title: 'Home Technician' } },
+  { path: '/analytics' , name: 'analytics-management', component: AnalyticsManagementComponent, meta: { title: 'Analytics Management' } },
   { path: '/about', name: 'about', component: AboutComponent, meta: { title: 'About us' } },
   { path: '/', name: 'default', redirect: { name: 'homeTechnician' } },
   { path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundComponent, meta: { title: 'Page not found' } },
