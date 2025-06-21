@@ -19,8 +19,9 @@ export default {
       ],
       items_Technician: [
         { label: "Inicio", to: "/homeTechnician", icon: "pi pi-home" },
-        { label: "Inventario", to: "/inventory-component", icon: "pi pi-info-circle" },
+        { label: "Inventario", to: "/technician-inventory/0a8237b1-fad7-400a-ad8d-22a2e64a9408", icon: "pi pi-info-circle" },
         { label: "DashBoard", to: "/analytics", icon: "pi pi-star" },
+        { label: "Componentes", to: "/electrical-component-registration", icon : "pi pi-star"}
       ],
     };
   },
