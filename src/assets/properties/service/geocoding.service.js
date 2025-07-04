@@ -5,11 +5,6 @@ const geocodingClient = axios.create({
 });
 
 export const geocodingService = {
-    /**
-     * Busca una dirección y devuelve posibles resultados de geocodificación.
-     * @param {string} address - La dirección a buscar.
-     * @returns {Promise<any[]>}
-     */
     async search(address) {
         if (!address || address.trim() === '') {
             return [];
@@ -19,7 +14,7 @@ export const geocodingService = {
                 params: {
                     q: address,
                     format: 'json',
-                    countrycodes: 'pe', // Limita la búsqueda a Perú
+                    countrycodes: 'pe',
                     limit: 5,
                     addressdetails: 1
                 }
@@ -27,7 +22,7 @@ export const geocodingService = {
             return response.data;
         } catch (error) {
             console.error('Error en el servicio de Geocodificación:', error);
-            return []; // Devuelve un array vacío en caso de error.
+            return [];
         }
     }
 };

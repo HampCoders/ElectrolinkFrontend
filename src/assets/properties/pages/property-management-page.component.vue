@@ -1,13 +1,10 @@
 <template>
   <div class="property-page-container">
-    <!-- Panel del Mapa -->
     <div class="map-panel">
       <PropertyMap :properties="properties" @property-selected="onPropertySelected" />
     </div>
 
-    <!-- Panel de Lista y Detalles -->
     <div class="list-details-panel">
-      <!-- Sección de la Lista -->
       <div class="list-section">
         <div class="list-header">
           <h2>Propiedades</h2>
@@ -16,10 +13,8 @@
         <PropertyList :properties="properties" :selected-property-id="selectedPropertyId" @property-selected="onPropertySelected" />
       </div>
 
-      <!-- Separador Vertical -->
       <Divider layout="vertical" />
 
-      <!-- Sección de Detalles -->
       <div class="details-section">
         <h2>Detalles</h2>
         <PropertyDetail :property="selectedProperty" />
@@ -79,7 +74,7 @@ export default {
 .property-page-container {
   display: flex;
   flex-direction: row;
-  height: calc(100vh - 80px); /* Asume una barra de navegación de 80px */
+  height: calc(100vh - 80px);
   padding: 1rem;
   gap: 1rem;
 }
@@ -90,7 +85,7 @@ export default {
 .list-details-panel {
   flex: 1;
   display: flex;
-  flex-direction: row; /* Cambiado a row para el divisor vertical */
+  flex-direction: row;
   background-color: var(--surface-a);
   border: 1px solid var(--surface-d);
   border-radius: 8px;
@@ -98,14 +93,14 @@ export default {
   min-width: 60%;
 }
 .list-section {
-  flex: 0 0 40%; /* Ancho fijo para la lista */
+  flex: 0 0 40%;
   padding: 1rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
 .details-section {
-  flex: 1; /* Ocupa el espacio restante */
+  flex: 1;
   padding: 1rem;
   overflow-y: auto;
 }

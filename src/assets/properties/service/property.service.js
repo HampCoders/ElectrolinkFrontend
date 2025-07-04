@@ -1,7 +1,6 @@
 import httpInstance from "@/shared/services/http.instance.js";
 
 class PropertyService {
-    /** Construye el endpoint absoluto. */
     endpoint(ownerId) {
         const base = import.meta.env.VITE_API_BASE_URL; // http://localhost:5055/api/v1
         return `${base}/owners/${ownerId}/properties`;

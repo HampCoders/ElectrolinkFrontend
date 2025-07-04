@@ -5,7 +5,6 @@
 <script>
 import L from 'leaflet';
 
-// Configuración del ícono por defecto para Leaflet
 const iconDefault = L.icon({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -33,7 +32,6 @@ export default {
     };
   },
   watch: {
-    // Observa cambios en las propiedades para actualizar los marcadores
     properties() {
       this.updateMarkers();
     }
@@ -42,7 +40,6 @@ export default {
     this.initMap();
   },
   beforeUnmount() {
-    // Limpia el mapa para evitar fugas de memoria
     if (this.map) {
       this.map.remove();
       this.map = null;
@@ -53,7 +50,7 @@ export default {
       if (this.map || !this.$refs.mapElement) return;
 
       this.map = L.map(this.$refs.mapElement, {
-        center: [-12.046374, -77.042793], // Centro en Lima, Perú
+        center: [-12.046374, -77.042793],
         zoom: 12
       });
 
@@ -85,7 +82,6 @@ export default {
         this.markersLayer.addLayer(marker);
       });
 
-      // Ajusta el zoom para que todos los marcadores sean visibles
       const bounds = this.markersLayer.getBounds();
       if (bounds.isValid()) {
         this.map.fitBounds(bounds, { padding: [50, 50] });
@@ -99,6 +95,6 @@ export default {
   height: 100%;
   width: 100%;
   border-radius: 8px;
-  background-color: #f0f0f0; /* Color de fondo mientras carga */
+  background-color: #f0f0f0;
 }
 </style>

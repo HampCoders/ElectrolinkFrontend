@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { propertyService } from '../service/property.service.js';
 
-// En una app real, este ID vendría de un store de autenticación.
 const CURRENT_OWNER_ID = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
 
 export const usePropertyStore = defineStore('properties', {
@@ -13,11 +12,6 @@ export const usePropertyStore = defineStore('properties', {
     }),
 
     getters: {
-        /**
-         * Devuelve el objeto completo de la propiedad seleccionada.
-         * @param {object} state - El estado actual del store.
-         * @returns {Property|null}
-         */
         selectedProperty(state) {
             if (!state.selectedPropertyId) {
                 return null;
@@ -25,20 +19,13 @@ export const usePropertyStore = defineStore('properties', {
             return state.properties.find(p => p.id === state.selectedPropertyId) || null;
         },
 
-        /**
-         * Devuelve el ID del propietario actual.
-         * @returns {string}
-         */
         currentOwnerId() {
             return CURRENT_OWNER_ID;
         }
     },
 
-    // ACTIONS: Métodos para modificar el estado, usualmente asíncronos.
     actions: {
-        /**
-         * Carga todas las propiedades desde el servicio.
-         */
+
         async fetchAllProperties() {
             this.isLoading = true;
             this.error = null;
@@ -52,10 +39,7 @@ export const usePropertyStore = defineStore('properties', {
             }
         },
 
-        /**
-         * Crea una nueva propiedad y refresca la lista.
-         * @param {object} propertyData - Datos de la nueva propiedad.
-         */
+
         async createProperty(propertyData) {
             this.isLoading = true;
             this.error = null;
@@ -71,17 +55,11 @@ export const usePropertyStore = defineStore('properties', {
             }
         },
 
-        /**
-         * Establece la propiedad seleccionada por su ID.
-         * @param {string} propertyId - El ID de la propiedad a seleccionar.
-         */
+
         selectPropertyById(propertyId) {
             this.selectedPropertyId = propertyId;
         },
 
-        /**
-         * Deselecciona la propiedad actual.
-         */
         clearSelection() {
             this.selectedPropertyId = null;
         }
