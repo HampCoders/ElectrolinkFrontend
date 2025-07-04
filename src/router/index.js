@@ -6,7 +6,6 @@ const HomeContractingComponent = () => import('../public/pages/homeContracting.c
 const HomeTechnicianComponent = () => import('../public/pages/homeTechnician.component.vue')
 const AboutComponent = () => import('../public/pages/about.component.vue')
 const PageNotFoundComponent = () => import('../public/pages/page-not-found.component.vue')
-const ElectricalComponentRegistrationPage = () => import('../assets/electricalComponents/pages/electrical-component-page.component.vue')
 const TechnicianInventoryPage = () => import('../assets/electricalComponents/pages/technician-inventory-page.component.vue');
 const AnalyticsManagementComponent = () => import('../analitycsDashboard/pages/analytics-management.component.vue')
 
