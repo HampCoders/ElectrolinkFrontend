@@ -1,6 +1,58 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
+// --- TIENDAS PINIA ---
+// Asumo que tienes una tienda para manejar los componentes.
+// Si no la tienes, aquí te dejo un ejemplo de cómo podría ser.
+// **Debes crear este archivo: /store/componentStore.js**
+/*
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+
+export const useComponentStore = defineStore('component', () => {
+  const isLoading = ref(false);
+  const error = ref(null);
+
+  // Simulación de una llamada a la API para crear un componente
+  async function createComponent(componentData) {
+    isLoading.value = true;
+    error.value = null;
+    console.log("Enviando a la API:", componentData);
+
+    try {
+      // Aquí iría tu llamada real a la API, por ejemplo con fetch o axios
+      // const response = await fetch('/api/components', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(componentData),
+      // });
+
+      // if (!response.ok) {
+      //   throw new Error('No se pudo crear el componente.');
+      // }
+
+      // const result = await response.json();
+
+      // Simulación de éxito
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simula espera de red
+      alert(`Componente "${componentData.name}" creado con éxito.`);
+
+      return true; // Indicar éxito
+
+    } catch (e) {
+      console.error(e);
+      error.value = e.message;
+      alert(`Error: ${e.message}`);
+      return false; // Indicar fallo
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  return { isLoading, error, createComponent };
+});
+*/
+
 // Importa tus tiendas reales
 import { useComponentStore } from '../store/componentStore.js'; // Ajusta la ruta a tu tienda de componentes
 import { useComponentTypeStore } from '../store/componentTypeStore.js'; // Ajusta la ruta a tu tienda de tipos

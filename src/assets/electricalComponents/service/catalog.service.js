@@ -3,7 +3,7 @@ import { Component } from '../model/electricalComponent.entity.js';
 import { ComponentType } from '../model/componentType.entity.js';
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:8080/api/v1/catalog',
+    baseURL: 'http://localhost:5055/api/v1/catalog',
     headers: {
         'Content-Type': 'application/json'
     }

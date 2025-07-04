@@ -2,7 +2,7 @@ import axios from 'axios';
 import { TechnicianInventory } from '../model/technicianInventory.entity.js';
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:8080/api/v1/technicians',
+    baseURL: 'http://localhost:5055/api/v1/technicians', // ¡IMPORTANTE! Ajusta esta URL
 });
 
 export const technicianInventoryService = {
