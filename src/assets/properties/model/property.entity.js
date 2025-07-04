@@ -1,6 +1,6 @@
 import { Address } from './address.entity.js';
 import { District } from './district.entity.js';
-import { Region } from './region.entity.js';
+import { Region } from './region.entity.s';
 
 export class Property {
     /**

@@ -3,12 +3,10 @@ import { ref } from 'vue';
 import { technicianInventoryService } from '../service/technicianInventory.service.js';
 
 export const useTechnicianInventoryStore = defineStore('inventory', () => {
-    // --- STATE ---
     const inventory = ref(null); // Contendrá el objeto TechnicianInventory
     const isLoading = ref(false);
     const error = ref(null);
 
-    // --- ACTIONS ---
     async function fetchInventory(technicianId) {
         if (!technicianId) return;
         isLoading.value = true;
