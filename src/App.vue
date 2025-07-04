@@ -15,7 +15,7 @@ export default {
       items_Contracting: [
         { label: "Inicio", to: "/homeContracting", icon: "pi pi-home" },
         { label: "Peticiones", to: "/about", icon: "pi pi-info-circle" },
-        { label: "Propiedades", to: "/properties", icon: "pi pi-map" },
+        { label: "Propiedades", to: "/property", icon: "pi pi-map" },
       ],
       items_Technician: [
         { label: "Inicio", to: "/homeTechnician", icon: "pi pi-home" },
