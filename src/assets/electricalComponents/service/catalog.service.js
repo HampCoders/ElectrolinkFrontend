@@ -10,8 +10,6 @@ const apiClient = axios.create({
 });
 
 export const catalogService = {
-
-    // --- MÉTODOS PARA 'ComponentType' ---
     /**
      * Llama a POST /types
      * @param {{ name: string, description: string }} typeData
