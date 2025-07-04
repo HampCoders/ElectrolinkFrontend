@@ -2,12 +2,12 @@ import axios from 'axios';
 import { Property } from '../model/property.entity.js';
 
 const propertyApiClient = axios.create({
-    baseURL: 'http://localhost:8080/api/v1/properties',
+    baseURL: 'http://localhost:5055/api/v1/properties',
 });
 
 // Se crea otra instancia para el recurso 'Owners' para mantener la lógica separada
 const ownerApiClient = axios.create({
-    baseURL: 'http://localhost:8080/api/v1/owners',
+    baseURL: 'http://localhost:5055/api/v1/owners',
 });
 
 

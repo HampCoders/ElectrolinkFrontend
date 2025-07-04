@@ -1,0 +1,130 @@
+<template>
+  <div class="property-page-container">
+    <!-- Panel del Mapa -->
+    <div class="map-panel">
+      <PropertyMap :properties="properties" @property-selected="onPropertySelected" />
+    </div>
+
+    <!-- Panel de Lista y Detalles -->
+    <div class="list-details-panel">
+      <!-- Sección de la Lista -->
+      <div class="list-section">
+        <div class="list-header">
+          <h2>Propiedades</h2>
+          <Button icon="pi pi-plus" severity="contrast" rounded @click="openCreateDialog" aria-label="Agregar Propiedad" v-tooltip.left="'Agregar Propiedad'"/>
+        </div>
+        <PropertyList :properties="properties" :selected-property-id="selectedPropertyId" @property-selected="onPropertySelected" />
+      </div>
+
+      <!-- Separador Vertical -->
+      <Divider layout="vertical" />
+
+      <!-- Sección de Detalles -->
+      <div class="details-section">
+        <h2>Detalles</h2>
+        <PropertyDetail :property="selectedProperty" />
+      </div>
+    </div>
+  </div>
+
+  <PropertyCreateDialog :visible="isDialogVisible" @close="isDialogVisible = false" />
+</template>
+
+<script>
+import { usePropertyStore } from '../store/property.store.js';
+import PropertyMap from '../components/property/property-map.component.vue';
+import PropertyList from '../components/property/property-list.component.vue';
+import PropertyDetail from '../components/property/property-detail.component.vue';
+import PropertyCreateDialog from '../components/property/property-create-dialog.component.vue';
+import Button from 'primevue/button';
+import Divider from 'primevue/divider';
+import Tooltip from 'primevue/tooltip';
+
+export default {
+  name: 'property-management-page',
+  components: { PropertyMap, PropertyList, PropertyDetail, PropertyCreateDialog, Button, Divider },
+  directives: { Tooltip },
+  data() {
+    return {
+      store: usePropertyStore(),
+      isDialogVisible: false,
+    };
+  },
+  computed: {
+    properties() {
+      return this.store.properties;
+    },
+    selectedProperty() {
+      return this.store.selectedProperty;
+    },
+    selectedPropertyId() {
+      return this.store.selectedPropertyId;
+    }
+  },
+  methods: {
+    onPropertySelected(propertyId) {
+      this.store.selectPropertyById(propertyId);
+    },
+    openCreateDialog() {
+      this.isDialogVisible = true;
+    }
+  },
+  created() {
+    this.store.fetchAllProperties();
+  }
+};
+</script>
+
+<style scoped>
+.property-page-container {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 80px); /* Asume una barra de navegación de 80px */
+  padding: 1rem;
+  gap: 1rem;
+}
+.map-panel {
+  flex: 1;
+  min-width: 40%;
+}
+.list-details-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: row; /* Cambiado a row para el divisor vertical */
+  background-color: var(--surface-a);
+  border: 1px solid var(--surface-d);
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 60%;
+}
+.list-section {
+  flex: 0 0 40%; /* Ancho fijo para la lista */
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.details-section {
+  flex: 1; /* Ocupa el espacio restante */
+  padding: 1rem;
+  overflow-y: auto;
+}
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--surface-d);
+  margin-bottom: 1rem;
+}
+.list-header h2 {
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .property-page-container, .list-details-panel {
+    flex-direction: column;
+    height: auto;
+  }
+}
+</style>
