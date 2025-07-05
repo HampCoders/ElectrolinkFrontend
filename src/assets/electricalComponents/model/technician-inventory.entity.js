@@ -1,4 +1,4 @@
-import { ComponentStock } from './electricalComponentStock.entity.js';
+import { ComponentStock } from './electrical-component-stock.entity.js';
 
 export class TechnicianInventory {
     /**
