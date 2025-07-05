@@ -1,41 +1,35 @@
-import axios from 'axios';
-import { TechnicianInventory } from '../model/technician-inventory.entity.js';
+import httpInstance from "../../../shared/services/http.instance.js";
 
-const apiClient = axios.create({
-    baseURL: 'http://localhost:5055/api/v1/technicians', // ¡IMPORTANTE! Ajusta esta URL
-});
-
-export const technicianInventoryService = {
-
-    /** Llama a GET /{technicianId}/inventory */
-    async getInventory(technicianId) {
-        const response = await apiClient.get(`/${technicianId}/inventory`);
-        // El backend ya enriquece los datos, así que podemos crear la entidad directamente.
-        return new TechnicianInventory(response.data);
-    },
-
-    /** Llama a POST /{technicianId}/inventory */
-    async createInventory(technicianId) {
-        // No esperamos contenido en la respuesta, solo un status 201.
-        await apiClient.post(`/${technicianId}/inventory`);
-    },
-
-    /** Llama a POST /{technicianId}/inventory/stock-items */
-    async addStockItem(technicianId, stockData) {
-        // stockData debe ser un objeto como { componentId, quantity, alertThreshold }
-        await apiClient.post(`/${technicianId}/inventory/stock-items`, stockData);
-    },
-
-    /** Llama a PUT /{technicianId}/inventory/{componentId} */
-    async updateStockItem(technicianId, componentId, updateData) {
-        // updateData debe ser un objeto como { newQuantity, newAlertThreshold }
-        const response = await apiClient.put(`/${technicianId}/inventory/${componentId}`, updateData);
-        // Este endpoint devuelve el inventario actualizado, ¡lo usamos!
-        return new TechnicianInventory(response.data);
-    },
-
-    /** Llama a DELETE /{technicianId}/inventory/{componentId} */
-    async removeStockItem(technicianId, componentId) {
-        await apiClient.delete(`/${technicianId}/inventory/${componentId}`);
+class TechnicianInventoryService {
+    endpoint(technicianId) {
+        const base = import.meta.env.VITE_API_BASE_URL;
+        return `${base}/technicians/${technicianId}/inventory`;
     }
-};
+
+    async getInventory(technicianId) {
+        const { data } = await httpInstance.get(`/${technicianId}/inventory`);
+        return data;
+    }
+
+    async createInventory(technicianId) {
+        const { data } = await httpInstance.post(`/${technicianId}/inventory`);
+
+        return data;
+    }
+
+    async addStockItem(technicianId, stockData) {
+        const { data } = await httpInstance.post(`/${technicianId}/inventory/stock-items`, stockData);
+        return data;
+    }
+
+    async updateStockItem(technicianId, componentId, updateData) {
+        const { data } = await httpInstance.put(`/${technicianId}/inventory/${componentId}`, updateData);
+        return data;
+    }
+
+    async removeStockItem(technicianId, componentId) {
+        await httpInstance.delete(`/${technicianId}/inventory/${componentId}`);
+    }
+}
+
+export const technicianInventoryService = new TechnicianInventoryService();

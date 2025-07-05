@@ -1,48 +1,44 @@
-import axios from 'axios';
+import httpInstance from "../../../shared/services/http.instance.js"; // Asumiendo la ruta a tu http instance
 import { Component } from '../model/electrical-component.entity.js';
 
-const apiClient = axios.create({
-    baseURL: 'http://localhost:5055/api/v1/catalog',
-});
-
-export const componentService = {
-
-    async getAllComponents() {
-        const response = await apiClient.get('/components');
+class ComponentService {
+    constructor() {
+        this.baseEndpoint = '/components';
+    }
+    async getAll() {
+        const response = await httpInstance.get(this.baseEndpoint);
         return response.data.map(c => new Component(c));
-    },
-
+    }
 
     async getById(id) {
-        const response = await apiClient.get(`/components/${id}`);
+        const response = await httpInstance.get(`${this.baseEndpoint}/${id}`);
         return new Component(response.data);
-    },
-
+    }
 
     async getByTypeId(typeId) {
-        const response = await apiClient.get('/components', { params: { typeId } });
+        const response = await httpInstance.get(this.baseEndpoint, { params: { typeId } });
         return response.data.map(c => new Component(c));
-    },
+    }
 
     async getByIds(idsArray) {
-        const idsString = idsArray.join(','); // Convertimos el array a "id1,id2,id3"
-        const response = await apiClient.get('/components', { params: { ids: idsString } });
+        const idsString = idsArray.join(',');
+        const response = await httpInstance.get(this.baseEndpoint, { params: { ids: idsString } });
         return response.data.map(c => new Component(c));
-    },
+    }
 
     async create(componentData) {
-        const response = await apiClient.post('/components', componentData);
+        const response = await httpInstance.post(this.baseEndpoint, componentData);
         return new Component(response.data);
-    },
+    }
 
     async update(id, componentData) {
-        const response = await apiClient.put(`/components/${id}`, componentData);
+        const response = await httpInstance.put(`${this.baseEndpoint}/${id}`, componentData);
         return new Component(response.data);
-    },
-
-
-    async deactivate(id) {
-        const response = await apiClient.delete(`/components/${id}`);
-        return response.data;
     }
-};
+
+    async delete(id) {
+        await httpInstance.delete(`${this.baseEndpoint}/${id}`);
+    }
+}
+
+export const componentService = new ComponentService();
