@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { useComponentStore } from '../store/componentStore.js'; // Ajusta la ruta
+import { useComponentStore } from '../store/component.store.js'; // Ajusta la ruta
 import ComponentForm from '../components/electricalComponent/component-form.component.vue'; // Ajusta la ruta
 import ComponentList from '../components/electricalComponent/component-list.component.vue'; // Ajusta la ruta
 

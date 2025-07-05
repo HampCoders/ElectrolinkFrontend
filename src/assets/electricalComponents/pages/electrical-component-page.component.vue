@@ -1,13 +1,11 @@
 <script>
-// 1. Importa ambos formularios y tu tienda Pinia.
-import ElectricalComponentForm from '../components/electrical-component-form.component.vue';
-import ComponentTypeForm from '../components/electrical-component-type-form.component.vue';
+import ElectricalComponentForm from '../components/electricalComponent/component-form.component.vue';
+import ComponentTypeForm from '../components/electricalComponentType/component-type-form.component.vue';
 import { onMounted } from 'vue';
-import { useComponentStore } from '../store/componentStore.js';
+import { useComponentStore } from '../store/component.store.js';
 
 export default {
   name: "electrical-component-page",
-  // 2. Registra ambos componentes para poder usarlos en el template.
   components: {
     ElectricalComponentForm,
     ComponentTypeForm
@@ -15,7 +13,6 @@ export default {
   setup() {
     const componentStore = useComponentStore();
 
-    // Cuando el componente se monta, busca todos los componentes existentes.
     onMounted(() => {
       componentStore.fetchAllComponents();
     });
@@ -31,7 +28,6 @@ export default {
   <div class="page-container">
     <div class="form-section">
       <h1>Registro de Componentes</h1>
-      <!-- 3. Usa el componente del formulario para crear componentes aquí. -->
       <electrical-component-form />
     </div>
 
@@ -45,17 +41,14 @@ export default {
 
       <h2>Componentes Existentes</h2>
 
-      <!-- Mensaje de carga mientras se obtienen los datos -->
       <div v-if="componentStore.isLoading" class="loading-message">
         Cargando componentes...
       </div>
 
-      <!-- Mensaje de error si la petición falla -->
       <div v-else-if="componentStore.error" class="error-message">
         <p>Error: {{ componentStore.error }}</p>
       </div>
 
-      <!-- Lista de componentes cuando ya se han cargado -->
       <ul v-else-if="componentStore.components.length > 0" class="component-list">
         <li v-for="component in componentStore.components" :key="component.id" class="component-item">
           <strong>{{ component.name }}</strong> (ID Tipo: {{ component.typeId }})
@@ -66,7 +59,6 @@ export default {
         </li>
       </ul>
 
-      <!-- Mensaje si no hay componentes -->
       <div v-else class="no-items-message">
         <p>No hay componentes para mostrar. ¡Crea el primero!</p>
       </div>

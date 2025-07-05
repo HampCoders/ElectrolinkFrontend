@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { useTechnicianInventoryStore } from '../store/technicianInventoryStore.js';
+import { useTechnicianInventoryStore } from '../store/technician-inventory.store.js';
 import InventoryForm from '../components/technicianInventory/inventory-form.component.vue';
 import InventoryList from '../components/technicianInventory/inventory-list.component.vue';
 import Message from 'primevue/message';
@@ -32,7 +32,6 @@ export default {
   data() {
     return {
       store: useTechnicianInventoryStore(),
-      // En una app real, este ID vendría de la ruta (this.$route.params.id)
       technicianId: '1f4cdaa7-b9ea-45c6-acb6-d6cf49edb181',
       componentKey: 0
     };
@@ -50,7 +49,6 @@ export default {
   },
   methods: {
     handleItemAdded() {
-      // El store ya recarga el inventario, solo necesitamos forzar el re-renderizado
       this.componentKey += 1;
     },
     handleUpdateQuantity(event) {
