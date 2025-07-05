@@ -2,18 +2,15 @@
   <Card>
     <template #title>Lista de Componentes</template>
     <template #content>
-      <!-- Estado de Carga -->
       <div v-if="isLoading && !components.length" class="text-center p-4">
         <ProgressSpinner />
         <p>Cargando componentes...</p>
       </div>
 
-      <!-- Mensaje de Error -->
       <div v-else-if="error" class="p-4">
         <Message severity="error">{{ error }}</Message>
       </div>
 
-      <!-- Tabla de Componentes -->
       <DataTable v-else :value="components" responsiveLayout="scroll">
         <Column field="name" header="Nombre"></Column>
         <Column field="description" header="Descripción">
@@ -69,11 +66,9 @@ export default {
   methods: {
     onEdit(component) {
       console.log('Editar componente:', component);
-      // Aquí iría la lógica para editar, por ejemplo, abrir un diálogo
     },
     onDelete(component) {
       console.log('Eliminar componente:', component);
-      // Aquí iría la lógica para eliminar, usando el store
     }
   }
 };

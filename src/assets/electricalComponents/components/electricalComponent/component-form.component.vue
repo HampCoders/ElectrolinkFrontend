@@ -17,13 +17,21 @@
 
         <div class="field">
           <label for="componentTypeId" class="font-bold block mb-2">Tipo de Componente</label>
-          <Dropdown id="componentTypeId" v-model="form.componentTypeId" :options="componentTypes" optionLabel="name" optionValue="id" placeholder="Selecciona un tipo" class="w-full" :loading="isLoadingTypes" :class="{'p-invalid': submitted && !form.componentTypeId}" />
+          <pv-dropdown id="componentTypeId"
+                    v-model="form.componentTypeId"
+                    :options="componentTypes"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder="Selecciona un tipo"
+                    class="w-full"
+                    :loading="isLoadingTypes"
+                    :class="{'p-invalid': submitted && !form.componentTypeId}" />
           <small v-if="submitted && !form.componentTypeId" class="p-error">Debe seleccionar un tipo.</small>
         </div>
 
         <div class="field">
           <div class="flex align-items-center">
-            <InputSwitch v-model="form.isActive" inputId="isActive" />
+            <pv-input-switch v-model="form.isActive" inputId="isActive" />
             <label for="isActive" class="ml-2">Componente Activo</label>
           </div>
         </div>
@@ -49,10 +57,11 @@ import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
 import Message from 'primevue/message';
+import {Dropdown as PvDropdown} from "primevue";
 
 export default {
   name: 'component-form',
-  components: { Card, InputText, Textarea, Button, Message },
+  components: {PvDropdown, Card, InputText, Textarea, Button, Message },
   data() {
     return {
       componentStore: useComponentStore(),
@@ -89,7 +98,7 @@ export default {
 
       try {
         await this.componentStore.createComponent({ ...this.form });
-        this.form = { name: '', description: '', isActive: true, componentTypeId: null };
+        this.form = { name: '', description: '', isActive: false, componentTypeId: null }
         this.submitted = false;
         this.$emit('component-created');
       } catch (err) {
