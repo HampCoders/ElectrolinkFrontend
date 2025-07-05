@@ -42,19 +42,17 @@
 </template>
 
 <script>
-import { useComponentStore } from '../../store/componentStore.js';
-import { useComponentTypeStore } from '../../store/componentTypeStore.js';
+import { useComponentStore } from '../../store/component.store.js';
+import { useComponentTypeStore } from '../../store/component-type.store.js';
 import Card from 'primevue/card';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
-import Dropdown from 'primevue/dropdown';
-import InputSwitch from 'primevue/inputswitch';
 import Button from 'primevue/button';
 import Message from 'primevue/message';
 
 export default {
   name: 'component-form',
-  components: { Card, InputText, Textarea, Dropdown, InputSwitch, Button, Message },
+  components: { Card, InputText, Textarea, Button, Message },
   data() {
     return {
       componentStore: useComponentStore(),
@@ -100,7 +98,6 @@ export default {
     }
   },
   created() {
-    // Cargamos los tipos de componente para el dropdown cuando se crea el formulario
     this.typeStore.fetchAllTypes();
   }
 };

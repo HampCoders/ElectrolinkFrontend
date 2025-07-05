@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { catalogService } from '../service/catalog.service.js';
+import { catalogService } from '../service/component-type.service.js';
 import {componentService} from '../service/component.service.js';
 
 export const useComponentStore = defineStore('components', () => {

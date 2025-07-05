@@ -1,5 +1,5 @@
 <script>
-import { useComponentTypeStore } from '../../store/componentTypeStore.js'; // Ajusta la ruta a tu store
+import { useComponentTypeStore } from '../../store/component-type.store.js';
 import Card from 'primevue/card';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
@@ -31,7 +31,7 @@ export default {
       this.errorMessage = null;
 
       if (!this.form.name) {
-        return; // Detiene el envío si el formulario no es válido
+        return;
       }
 
       try {
@@ -39,7 +39,6 @@ export default {
         this.form.name = '';
         this.form.description = '';
         this.submitted = false;
-        // Emitimos un evento para que el componente padre sepa que se agregó un tipo
         this.$emit('type-added');
       } catch (err) {
         this.errorMessage = err.message || 'Ocurrió un error desconocido.';
@@ -53,7 +52,6 @@ export default {
   <Card>
     <template #title>Agregar Nuevo Tipo</template>
     <template #content>
-      <!-- El evento @submit.prevent evita el comportamiento por defecto del formulario -->
       <form @submit.prevent="onSubmit" class="flex flex-column gap-3">
         <div class="field">
           <label for="name" class="font-bold block mb-2">Nombre del Tipo</label>

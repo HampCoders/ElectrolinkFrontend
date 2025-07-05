@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { catalogService } from '../service/catalog.service.js';
+import { catalogService } from '../service/component-type.service.js';
 
 export const useComponentTypeStore = defineStore('componentTypes', () => {
     // --- STATE ---

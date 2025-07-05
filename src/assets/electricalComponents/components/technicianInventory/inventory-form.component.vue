@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import { useTechnicianInventoryStore } from '../../store/technicianInventoryStore.js';
-import { useComponentStore } from '../../store/componentStore.js';
+import { useTechnicianInventoryStore } from '../../store/technician-inventory.store.js';
+import { useComponentStore } from '../../store/component.store.js';
 import Card from 'primevue/card';
 import AutoComplete from 'primevue/autocomplete';
 import InputNumber from 'primevue/inputnumber';
