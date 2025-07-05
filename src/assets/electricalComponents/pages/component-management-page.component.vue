@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     handleComponentCreated() {
+      console.log(this.store.fetchAllComponents());
       this.store.fetchAllComponents();
       this.componentKey += 1;
     }
