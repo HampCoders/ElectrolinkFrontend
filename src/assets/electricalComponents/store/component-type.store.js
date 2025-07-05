@@ -1,20 +1,18 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { catalogService } from '../service/component-type.service.js';
+import { componentTypeService } from '../service/component-type.service.js';
 
 export const useComponentTypeStore = defineStore('componentTypes', () => {
-    // --- STATE ---
     const types = ref([]);
     const isLoading = ref(false);
     const error = ref(null);
 
-    // --- ACTIONS ---
-    async function fetchAllTypes() {
+    async function fetchAllTypes () {
         isLoading.value = true;
         error.value = null;
         try {
-            // El servicio ya nos devuelve los datos limpios y transformados.
-            types.value = await catalogService.getAllComponentTypes();
+            // ✅ Simplemente asigna el resultado. El servicio ya hizo la transformación.
+            types.value = await componentTypeService.getAll();
         } catch (e) {
             console.error('Error al cargar los tipos:', e);
             error.value = 'Error al cargar los tipos de componente.';
@@ -26,7 +24,7 @@ export const useComponentTypeStore = defineStore('componentTypes', () => {
     async function createType(typeData) {
         isLoading.value = true;
         try {
-            const newType = await catalogService.createComponentType(typeData);
+            const newType = await componentTypeService.create(typeData);
             types.value.push(newType);
             return newType;
         } catch (e) {
@@ -40,7 +38,7 @@ export const useComponentTypeStore = defineStore('componentTypes', () => {
     async function updateType(typeId, typeData) {
         isLoading.value = true;
         try {
-            const updatedType = await catalogService.updateComponentType(typeId, typeData);
+            const updatedType = await componentTypeService.update(typeId, typeData);
             const index = types.value.findIndex(t => t.id === typeId);
             if (index !== -1) {
                 types.value[index] = updatedType;
@@ -57,7 +55,7 @@ export const useComponentTypeStore = defineStore('componentTypes', () => {
     async function deleteType(typeId) {
         isLoading.value = true;
         try {
-            await catalogService.deleteComponentType(typeId);
+            await componentTypeService.delete(typeId);
             types.value = types.value.filter(t => t.id !== typeId);
         } catch (e) {
             error.value = 'Error al eliminar el tipo de componente.';
