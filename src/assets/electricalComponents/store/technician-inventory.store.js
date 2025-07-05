@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { technicianInventoryService } from '../service/technicianInventory.service.js';
+import { technicianInventoryService } from '../service/technician-inventory.service.js';
 
 export const useTechnicianInventoryStore = defineStore('inventory', () => {
     // --- STATE ---
