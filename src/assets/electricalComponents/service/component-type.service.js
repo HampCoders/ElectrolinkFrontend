@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ComponentType } from '../model/componentType.entity.js';
+import { ComponentType } from '../model/component-type.entity.js';
 
 // Instancia de Axios configurada para apuntar al controlador de ComponentTypes.
 const apiClient = axios.create({
