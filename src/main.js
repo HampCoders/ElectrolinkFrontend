@@ -16,10 +16,12 @@ import {
     Dialog,
     DialogService,
     Drawer,
+    Dropdown,
     FileUpload,
     FloatLabel,
     IconField,
     InputIcon,
+    InputSwitch,
     InputNumber,
     InputText,
     Menu,
@@ -53,6 +55,7 @@ app.use(i18n)
     .component('pv-confirm-dialog', ConfirmDialog)
     .component('pv-checkbox',       Checkbox)
     .component('pv-data-table',     DataTable)
+    .component('pv-dropdown',       Dropdown)
     .component('pv-dialog',         Dialog)
     .component('pv-select',         Select)
     .component('pv-select-button',  SelectButton)
@@ -61,6 +64,7 @@ app.use(i18n)
     .component('pv-icon-field',     IconField)
     .component('pv-input-icon',     InputIcon)
     .component('pv-input-text',     InputText)
+    .component('pv-input-switch',   InputSwitch)
     .component('pv-input-number',   InputNumber)
     .component('pv-menu',           Menu)
     .component('pv-rating',         Rating)
