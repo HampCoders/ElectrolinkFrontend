@@ -1,5 +1,4 @@
 import httpInstance from "../../../shared/services/http.instance.js";
-
 class PropertyService {
     endpoint(ownerId) {
         const base = import.meta.env.VITE_API_BASE_URL;
