@@ -1,39 +1,69 @@
-
+// src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router'
 
+// ───────────────────────────────────────
+// 1.  Páginas públicas
+// ───────────────────────────────────────
+const HomeContractingComponent   = () => import('../public/pages/homeContracting.component.vue')
+const HomeTechnicianComponent    = () => import('../public/pages/homeTechnician.component.vue')
+const AboutComponent             = () => import('../public/pages/about.component.vue')
+const PageNotFoundComponent      = () => import('../public/pages/page-not-found.component.vue')
 
-const HomeContractingComponent = () => import('../public/pages/homeContracting.component.vue')
-const HomeTechnicianComponent = () => import('../public/pages/homeTechnician.component.vue')
-const AboutComponent = () => import('../public/pages/about.component.vue')
-const PageNotFoundComponent = () => import('../public/pages/page-not-found.component.vue')
-const TechnicianInventoryPage = () => import('../assets/electricalComponents/pages/technician-inventory-page.component.vue');
+// ───────────────────────────────────────
+// 2.  IAM (auth)
+// ───────────────────────────────────────
+const SignInPage  = () => import('../iam/pages/sign-in.component.vue')
+const SignUpPage  = () => import('../iam/pages/sign-up.component.vue')
+
+// ───────────────────────────────────────
+// 3.  Funcionalidades
+// ───────────────────────────────────────
+const TechnicianInventoryPage    = () => import('../assets/electricalComponents/pages/technician-inventory-page.component.vue')
 const AnalyticsManagementComponent = () => import('../analitycsDashboard/pages/analytics-management.component.vue')
+const ComponentManagementPage    = () => import('../assets/electricalComponents/pages/component-management-page.component.vue')
+const ComponentTypeManagementPage = () => import('../assets/electricalComponents/pages/component-type-management-page.component.vue')
+const PropertyManagementPage     = () => import('../assets/properties/pages/property-management-page.component.vue')
 
-// New Components
-const ComponentManagementPage = () => import('../assets/electricalComponents/pages/component-management-page.component.vue');
-const ComponentTypeManagementPage = () => import('../assets/electricalComponents/pages/component-type-management-page.component.vue');
-const PropertyManagementPage = () => import('../assets/properties/pages/property-management-page.component.vue');
-
+// ───────────────────────────────────────
+// 4.  Tabla de rutas
+// ───────────────────────────────────────
 const routes = [
-  { path: '/homeTechnician', name: 'homeTechnician', component: HomeTechnicianComponent, meta: { title: 'Home Contracting' } },
-  { path: '/homeContracting', name: 'homeContracting', component: HomeContractingComponent, meta: { title: 'Home Technician' } },
-  { path: '/analytics' , name: 'analytics-management', component: AnalyticsManagementComponent, meta: { title: 'Analytics Management' } },
-  { path: "/electrical-component-registration", name: "electrical-component-registration", component: ComponentManagementPage, meta: { title: 'Registro de Componente Eléctrico' } },
-  { path: "/electrical-component-type", name: "electrical-component-type", component: ComponentTypeManagementPage, meta: { title: 'Registro de Tipo de Componente Eléctrico' } },
-  { path: '/technician-inventory/:technicianId?',component:TechnicianInventoryPage , meta: { title: 'Technician inventory' }},
-  { path: '/property',component:PropertyManagementPage , meta: { title: 'Property Management' }},
-  { path: '/about', name: 'about', component: AboutComponent, meta: { title: 'About us' } },
-  { path: '/', name: 'default', redirect: { name: 'homeTechnician' } },
-  { path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundComponent, meta: { title: 'Page not found' } },
+  // IAM
+  { path: '/sign-in',  name: 'sign-in',  component: SignInPage, meta: { title: 'Sign In'  } },
+  { path: '/sign-up',  name: 'sign-up',  component: SignUpPage, meta: { title: 'Sign Up'  } },
 
+  // Home / landing
+  { path: '/homeTechnician',  name: 'homeTechnician',  component: HomeTechnicianComponent,  meta: { title: 'Home Technician'   } },
+  { path: '/homeContracting', name: 'homeContracting', component: HomeContractingComponent, meta: { title: 'Home Contracting'  } },
+
+  // Funcionalidades
+  { path: '/analytics',                     name: 'analytics-management',          component: AnalyticsManagementComponent, meta: { title: 'Analytics Management' } },
+  { path: '/electrical-component-registration', name: 'electrical-component-registration', component: ComponentManagementPage,    meta: { title: 'Registro de Componente Eléctrico' } },
+  { path: '/electrical-component-type',        name: 'electrical-component-type',        component: ComponentTypeManagementPage, meta: { title: 'Registro de Tipo de Componente Eléctrico' } },
+  { path: '/technician-inventory/:technicianId?',  name: 'technician-inventory', component: TechnicianInventoryPage,  meta: { title: 'Technician Inventory' } },
+  { path: '/property', component: PropertyManagementPage, meta: { title: 'Property Management' } },
+
+  // Página informativa
+  { path: '/about', name: 'about', component: AboutComponent, meta: { title: 'About us' } },
+
+  // Redirección por defecto ► cámbiala si lo necesitas
+  { path: '/', name: 'default', redirect: { name: 'sign-in' } },
+
+  // 404
+  { path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundComponent, meta: { title: 'Page not found' } }
 ]
 
+// ───────────────────────────────────────
+// 5.  Instancia de router
+// ───────────────────────────────────────
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: routes,
+  routes
 })
 
-
+// ───────────────────────────────────────
+// 6.  Guard global: título dinámico y logs
+// ───────────────────────────────────────
 router.beforeEach((to, from, next) => {
   console.log(`Navigating from ${from.name || 'N/A'} to ${to.name || 'N/A'}`)
   const baseTitle = 'ElectroLink - Center for Technicians and Contractors'
