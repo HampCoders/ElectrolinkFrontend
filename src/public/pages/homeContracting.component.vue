@@ -56,7 +56,7 @@ export default {
 }
 .subtitulo {
   font-size: 1.1rem;
-  color: #333;
+  color: #e0e0e0;
   margin-bottom: 1.5rem;
 }
 .features {
@@ -67,7 +67,7 @@ export default {
   margin-bottom: 2rem;
 }
 .feature-card {
-  background: #fff;
+  background: #1e1e1e;
   border: 1px solid #1976d2;
   border-radius: 12px;
   padding: 1.5rem 1rem;
