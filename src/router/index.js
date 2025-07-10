@@ -14,7 +14,15 @@ const PageNotFoundComponent      = () => import('../public/pages/page-not-found.
 // ───────────────────────────────────────
 const SignInPage  = () => import('../iam/pages/sign-in.component.vue')
 const SignUpPage  = () => import('../iam/pages/sign-up.component.vue')
-
+// ───────────────────────────────────────
+// 2.  SDP (Service Design and Planning)
+// ───────────────────────────────────────
+const RequestsView = () => import('@/ServiceDesignAndPlanning/pages/requests-view.page.vue')
+const RequestCreate = () => import('@/ServiceDesignAndPlanning/pages/request-create.page.vue')
+const ScheduleView = () => import('@/ServiceDesignAndPlanning/pages/schedule-view.page.vue')
+const ScheduleCreate = () => import('@/ServiceDesignAndPlanning/pages/schedule-create.page.vue')
+const ServiceView = () => import('@/ServiceDesignAndPlanning/pages/service-view.page.vue')
+const ServiceCreate = () => import('@/ServiceDesignAndPlanning/pages/service-create.page.vue')
 // ───────────────────────────────────────
 // 3.  Funcionalidades
 // ───────────────────────────────────────
@@ -43,6 +51,13 @@ const routes = [
   { path: '/technician-inventory/:technicianId?',  name: 'technician-inventory', component: TechnicianInventoryPage,  meta: { title: 'Technician Inventory' } },
   { path: '/property', component: PropertyManagementPage, meta: { title: 'Property Management' } },
 
+    // SDP (Service Design and Planning)
+  { path: '/requests', name: 'requests', component: RequestsView, meta: { title: 'Requests' } },
+  { path: '/requests/new', name: 'create-request', component: RequestCreate, meta: { title: 'New Request' } },
+  { path: '/schedules', name: 'schedules', component: ScheduleView, meta: { title: 'Schedules' } },
+  { path: '/schedules/new', name: 'create-schedule', component: ScheduleCreate, meta: { title: 'New Schedule' } },
+  { path: '/services', name: 'services', component: ServiceView, meta: { title: 'Services' } },
+  { path: '/services/new', name: 'create-service', component: ServiceCreate, meta: { title: 'New Service' } },
   // Página informativa
   { path: '/about', name: 'about', component: AboutComponent, meta: { title: 'About us' } },
 
