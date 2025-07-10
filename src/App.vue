@@ -34,6 +34,7 @@ export default {
         { label: "Inicio", to: "/homeContracting", icon: "pi pi-home" },
         { label: "Peticiones", to: "/about", icon: "pi pi-info-circle" },
         { label: "Propiedades", to: "/property", icon: "pi pi-map" },
+        { label: "Servicios", to: "/services", icon: "pi pi-cog" }
       ];
     },
     items_Technician() {
@@ -50,6 +51,8 @@ export default {
           to: "/electrical-component-registration",
           icon: "pi pi-box",
         },
+        { label: "Horarios", to: "/schedules", icon: "pi pi-calendar" },
+        { label: "Servicios", to: "/services", icon: "pi pi-cog" }
       ];
     },
   },
