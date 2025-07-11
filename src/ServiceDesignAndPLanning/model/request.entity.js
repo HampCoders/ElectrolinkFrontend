@@ -5,9 +5,10 @@ export class Request {
                     technicianId = null,
                     propertyId = null,
                     serviceId = null,
-                    description = '',
+                    problemDescription = '',
                     scheduledDate = '',
-                    electricBill = '',
+                    status = '',
+                    bill = {},
                     photos = [],
                     createdAt = null
                 } = {}) {
@@ -16,9 +17,10 @@ export class Request {
         this.technicianId = technicianId;
         this.propertyId = propertyId;
         this.serviceId = serviceId;
-        this.description = description;
+        this.problemDescription = problemDescription;
         this.scheduledDate = scheduledDate;
-        this.electricBill = electricBill;
+        this.status = status;
+        this.bill = bill;
         this.photos = photos;
         this.createdAt = createdAt;
     }
