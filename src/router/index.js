@@ -65,7 +65,27 @@ const routes = [
   { path: '/', name: 'default', redirect: { name: 'sign-in' } },
 
   // 404
-  { path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundComponent, meta: { title: 'Page not found' } }
+  { path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundComponent, meta: { title: 'Page not found' } },
+   {
+    path: '/plans',
+    name: 'Plans',
+    component: PlansPage
+  },
+  {
+    path: '/my-subscriptions',
+    name: 'MySubscriptions',
+    component: MySubscriptions
+  },
+  {
+    path: '/checkout-success',
+    name: 'CheckoutSuccess',
+    component: CheckoutSuccess
+  },
+  {
+    path: '/service-operations',
+    name: 'ServiceOperations',
+    component: ServiceOperationPage
+  }
 ]
 
 // ───────────────────────────────────────
