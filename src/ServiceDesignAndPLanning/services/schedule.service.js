@@ -1,32 +1,41 @@
-import axios from 'axios'
+import httpInstance from '@/shared/services/http.instance.js'
 import { Schedule } from '../model/schedule.entity.js'
 
 export class ScheduleService {
-    constructor() {
-        this.apiUrl = 'http://localhost:5055/api/v1/schedules'
+    endpoint() {
+        const base = import.meta.env.VITE_API_BASE_URL;           // http://localhost:8088/api/v1
+        const path = import.meta.env.VITE_SCHEDULES_ENDPOINT_PATH; // 'schedules'
+        return `${base}/${path}`;                                 // …/schedules
+    }
+
+    endpointByTechnician(technicianId) {
+        const base   = import.meta.env.VITE_API_BASE_URL;
+        const tech   = import.meta.env.VITE_TECHNICIANS_ENDPOINT_PATH; // 'technicians'
+        const path   = import.meta.env.VITE_SCHEDULES_ENDPOINT_PATH;   // 'schedules'
+        return `${base}/${tech}/${technicianId}/${path}`;              // …/technicians/:id/schedules
     }
 
     async getByTechnicianId(technicianId) {
-        const response = await axios.get(`http://localhost:5055/api/v1/technicians/${technicianId}/schedules`)
-        return response.data.map(item => new Schedule(item))
+        const { data } = await httpInstance.get(this.endpointByTechnician(technicianId));
+        return data.map(item => new Schedule(item));
     }
 
-    async getById(scheduleId) {
-        const response = await axios.get(`${this.apiUrl}/${scheduleId}`)
-        return new Schedule(response.data)
+    async getById(id) {
+        const { data } = await httpInstance.get(`${this.endpoint()}/${id}`);
+        return new Schedule(data);
     }
 
     async create(scheduleData) {
-        const response = await axios.post(this.apiUrl, scheduleData)
-        return new Schedule(response.data)
+        const { data } = await httpInstance.post(this.endpoint(), scheduleData);
+        return new Schedule(data);
     }
 
-    async update(scheduleId, scheduleData) {
-        const response = await axios.put(`${this.apiUrl}/${scheduleId}`, scheduleData)
-        return new Schedule(response.data)
+    async update(id, scheduleData) {
+        const { data } = await httpInstance.put(`${this.endpoint()}/${id}`, scheduleData);
+        return new Schedule(data);
     }
 
-    async delete(scheduleId) {
-        await axios.delete(`${this.apiUrl}/${scheduleId}`)
+    async delete(id) {
+        await httpInstance.delete(`${this.endpoint()}/${id}`);
     }
 }

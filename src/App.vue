@@ -24,18 +24,18 @@ const hasValidProfile = computed(() => isTechnician.value !== isHomeOwner.value)
 /* Menús */
 const itemsContracting = computed(() => [
   { label: 'Inicio',       to: '/homeContracting',                 icon: 'pi pi-home' },
-  { label: 'Peticiones',   to: `/request/owner/${auth.homeOwnerId}`, icon: 'pi pi-info-circle' },
+  { label: 'Peticiones',   to: `/requests/${auth.homeOwnerId}`, icon: 'pi pi-info-circle' },
   { label: 'Propiedades',  to: `/property/${auth.homeOwnerId}`,      icon: 'pi pi-map' },
-  { label: 'Servicios',    to: '/services',                          icon: 'pi pi-cog' }
+  { label: 'Servicios',    to: `/services/${auth.homeOwnerId}`,                          icon: 'pi pi-cog' }
 ]);
 
 const itemsTechnician = computed(() => [
   { label: 'Inicio',       to: '/homeTechnician',                     icon: 'pi pi-home' },
   { label: 'Inventario',   to: `/technician-inventory/${auth.technicianId}`, icon: 'pi pi-info-circle' },
   { label: 'Dashboard',    to: '/analytics',                          icon: 'pi pi-chart-bar' },
-  { label: 'Componentes',  to: '/electrical-component-registration',  icon: 'pi pi-box' },
-  { label: 'Horarios',     to: '/schedules',                          icon: 'pi pi-calendar' },
-  { label: 'Servicios',    to: '/services',                           icon: 'pi pi-cog' }
+  { label: 'Componentes',  to: `/electrical-components/${auth.technicianId}`,  icon: 'pi pi-box' },
+  { label: 'Horarios',     to: `/schedules/${auth.technicianId}`,                          icon: 'pi pi-calendar' },
+  { label: 'Servicios',    to: `/services/${auth.technicianId}`, icon: 'pi pi-cog' }
 ]);
 
 const activeItems = computed(() =>

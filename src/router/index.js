@@ -46,18 +46,18 @@ const routes = [
 
   // Funcionalidades
   { path: '/analytics',                     name: 'analytics-management',          component: AnalyticsManagementComponent, meta: { title: 'Analytics Management' } },
-  { path: '/electrical-component-registration', name: 'electrical-component-registration', component: ComponentManagementPage,    meta: { title: 'Registro de Componente Eléctrico' } },
+  { path: '/electrical-components/:id?', name: 'electrical-component-registration', component: ComponentManagementPage,    meta: { title: 'Registro de Componente Eléctrico' } },
   { path: '/electrical-component-type',        name: 'electrical-component-type',        component: ComponentTypeManagementPage, meta: { title: 'Registro de Tipo de Componente Eléctrico' } },
   { path: '/technician-inventory/:id?',  name: 'technician-inventory', component: TechnicianInventoryPage,  meta: { title: 'Technician Inventory' } },
   { path: '/property/:id?', component: PropertyManagementPage, meta: { title: 'Property Management' } },
 
     // SDP (Service Design and Planning)
-  { path: '/requests', name: 'requests', component: RequestsView, meta: { title: 'Requests' } },
-  { path: '/requests/new', name: 'create-request', component: RequestCreate, meta: { title: 'New Request' } },
-  { path: '/schedules', name: 'schedules', component: ScheduleView, meta: { title: 'Schedules' } },
-  { path: '/schedules/new', name: 'create-schedule', component: ScheduleCreate, meta: { title: 'New Schedule' } },
-  { path: '/services', name: 'services', component: ServiceView, meta: { title: 'Services' } },
-  { path: '/services/new', name: 'create-service', component: ServiceCreate, meta: { title: 'New Service' } },
+  { path: '/requests/:ownerId', name: 'owner-requests', component: RequestsView, meta: { title: 'Requests' } },
+  { path: '/requests/:ownerId/new', name: 'create-request', component: RequestCreate, meta: { title: 'New Request' } },
+  { path: '/schedules/:ownerId', name: 'schedules', component: ScheduleView, meta: { title: 'Schedules' } },
+  { path: '/schedules/:ownerId/new', name: 'create-schedule', component: ScheduleCreate, meta: { title: 'New Schedule' } },
+  { path: '/services/:ownerId?', name: 'services', component: ServiceView, meta: { title: 'Services' } },
+  { path: '/services/:ownerId?/new', name: 'create-service', component: ServiceCreate, meta: { title: 'New Service' } },
   // Página informativa
   { path: '/about', name: 'about', component: AboutComponent, meta: { title: 'About us' } },
 

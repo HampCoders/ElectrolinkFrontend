@@ -1,36 +1,52 @@
-import axios from 'axios'
-import { Request } from '../model/request.entity.js'
+import httpInstance from "@/shared/services/http.instance.js";
+import { Request } from "../model/request.entity.js";
 
 export class RequestService {
-    constructor() {
-        this.apiUrl = 'http://localhost:5055/api/v1/requests'
+    // URL base: .../requests
+    endpoint() {
+        const base = import.meta.env.VITE_API_BASE_URL;
+        const path  = import.meta.env.VITE_REQUESTS_ENDPOINT_PATH; // 'requests'
+        return `${base}/${path}`;
     }
 
+    // URL base: .../clients/:id/requests
+    endpointByClient(clientId) {
+        const base = import.meta.env.VITE_API_BASE_URL;
+        const path = import.meta.env.VITE_CLIENTS_ENDPOINT_PATH;   // 'clients'
+        return `${base}/${path}/${clientId}/${import.meta.env.VITE_REQUESTS_ENDPOINT_PATH}`;
+    }
+
+    /* ────────────── CRUD standard ────────────── */
+
     async getAll() {
-        const response = await axios.get(this.apiUrl)
-        return response.data.map(item => new Request(item))
+        const { data } = await httpInstance.get(this.endpoint());
+        return data.map(item => new Request(item));
     }
 
     async getById(id) {
-        const response = await axios.get(`${this.apiUrl}/${id}`)
-        return new Request(response.data)
+        const { data } = await httpInstance.get(`${this.endpoint()}/${id}`);
+        return new Request(data);
     }
 
     async getByClientId(clientId) {
-        const response = await axios.get(`http://localhost:5055/api/v1/clients/${clientId}/requests`)
-        return response.data.map(item => new Request(item))
+        const { data } = await httpInstance.get(this.endpointByClient(clientId));
+        return data.map(item => new Request(item));
     }
 
     async create(requestData) {
-        const response = await axios.post(this.apiUrl, requestData)
-        return new Request(response.data)
+        const { data } = await httpInstance.post(this.endpoint(), requestData);
+        return new Request(data);
     }
+
     async update(id, requestData) {
-        const response = await axios.put(`${this.apiUrl}/${id}`, requestData)
-        return new Request(response.data)
+        const { data } = await httpInstance.put(`${this.endpoint()}/${id}`, requestData);
+        return new Request(data);
     }
 
     async delete(id) {
-        await axios.delete(`${this.apiUrl}/${id}`)
+        await httpInstance.delete(`${this.endpoint()}/${id}`);
     }
 }
+
+/* Exporta una instancia lista para usar */
+export const requestService = new RequestService();

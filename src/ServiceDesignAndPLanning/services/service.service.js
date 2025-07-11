@@ -1,27 +1,29 @@
-import axios from 'axios'
-import { Service } from '../model/service.entity.js'
+import httpInstance from '@/shared/services/http.instance.js'
+import { Service }  from "../model/service.entity.js";
 
 export class ServiceService {
-    constructor() {
-        this.apiUrl = 'http://localhost:5055/api/v1/services'
+    endpoint() {
+        const base = import.meta.env.VITE_API_BASE_URL;
+        const path = import.meta.env.VITE_SERVICES_ENDPOINT_PATH; // 'services'
+        return `${base}/${path}`;                                // …/services
     }
 
-    async getById(serviceId) {
-        const response = await axios.get(`${this.apiUrl}/${serviceId}`)
-        return new Service(response.data)
+    async getById(id) {
+        const { data } = await httpInstance.get(`${this.endpoint()}/${id}`);
+        return new Service(data);
     }
 
     async create(serviceData) {
-        const response = await axios.post(this.apiUrl, serviceData)
-        return new Service(response.data)
+        const { data } = await httpInstance.post(this.endpoint(), serviceData);
+        return new Service(data);
     }
 
-    async update(serviceId, serviceData) {
-        const response = await axios.put(`${this.apiUrl}/${serviceId}`, serviceData)
-        return new Service(response.data)
+    async update(id, serviceData) {
+        const { data } = await httpInstance.put(`${this.endpoint()}/${id}`, serviceData);
+        return new Service(data);
     }
 
-    async delete(serviceId) {
-        await axios.delete(`${this.apiUrl}/${serviceId}`)
+    async delete(id) {
+        await httpInstance.delete(`${this.endpoint()}/${id}`);
     }
 }
