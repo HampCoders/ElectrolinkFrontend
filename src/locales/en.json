@@ -58,5 +58,29 @@
     "submit": "Create Service",
     "created": "Service created successfully!",
     "createError": "There was an error creating the service."
+  },
+
+  "homeContracting": {
+    "welcome": "Welcome to ElectroLink Contracting",
+    "subtitle": "Manage the maintenance of your resources and electrical devices easily and safely.",
+    "features": {
+      "createRequests": {
+        "title": "Create Requests",
+        "desc": "Request specialized technicians to solve any electrical problem in your home or business."
+      },
+      "registerProperties": {
+        "title": "Register Your Properties",
+        "desc": "Add and manage all your properties to keep detailed maintenance control."
+      },
+      "maintainResources": {
+        "title": "Maintain Your Resources",
+        "desc": "Monitor the status of your electrical devices and receive alerts for preventive maintenance."
+      }
+    },
+    "cta": {
+      "ready": "Ready to get started?",
+      "firstRequest": "Create your first request",
+      "registerProperty": "register a property"
+    }
   }
 }

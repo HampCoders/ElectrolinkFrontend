@@ -9,28 +9,33 @@ export default {
   <div class="inicio-contracting">
     <div class="logo-container">
       <img src="https://cdn-icons-png.flaticon.com/512/1042/1042330.png" alt="Logo ElectroLink" class="logo-electrolink" />
-      <h1 class="titulo">Bienvenido a ElectroLink Contracting</h1>
-      <p class="subtitulo">Gestiona el mantenimiento de tus recursos y artefactos eléctricos de forma fácil y segura.</p>
+      <h1 class="titulo">{{ $t('homeContracting.welcome') }}</h1>
+      <p class="subtitulo">{{ $t('homeContracting.subtitle') }}</p>
     </div>
     <div class="features">
       <div class="feature-card">
         <i class="pi pi-user-plus icono-feature"></i>
-        <h2>Crea Peticiones</h2>
-        <p>Solicita técnicos especializados para resolver cualquier problema eléctrico en tu hogar o empresa.</p>
+        <h2>{{ $t('homeContracting.features.createRequests.title') }}</h2>
+        <p>{{ $t('homeContracting.features.createRequests.desc') }}</p>
       </div>
       <div class="feature-card">
         <i class="pi pi-home icono-feature"></i>
-        <h2>Registra tus Propiedades</h2>
-        <p>Agrega y administra todas tus propiedades para llevar un control detallado de su mantenimiento.</p>
+        <h2>{{ $t('homeContracting.features.registerProperties.title') }}</h2>
+        <p>{{ $t('homeContracting.features.registerProperties.desc') }}</p>
       </div>
       <div class="feature-card">
         <i class="pi pi-cog icono-feature"></i>
-        <h2>Mantén tus Recursos</h2>
-        <p>Supervisa el estado de tus artefactos eléctricos y recibe alertas para su mantenimiento preventivo.</p>
+        <h2>{{ $t('homeContracting.features.maintainResources.title') }}</h2>
+        <p>{{ $t('homeContracting.features.maintainResources.desc') }}</p>
       </div>
     </div>
     <div class="cta">
-      <p>¿Listo para comenzar? <router-link to="/about" class="cta-link">Crea tu primera petición</router-link> o <router-link to="/properties" class="cta-link">registra una propiedad</router-link>.</p>
+      <p>
+        {{ $t('homeContracting.cta.ready') }}
+        <router-link to="/about" class="cta-link">{{ $t('homeContracting.cta.firstRequest') }}</router-link>
+        {{ $t('homeContracting.cta.registerProperty') }}
+        <router-link to="/properties" class="cta-link">{{ $t('homeContracting.cta.registerProperty') }}</router-link>.
+      </p>
     </div>
   </div>
 </template>
