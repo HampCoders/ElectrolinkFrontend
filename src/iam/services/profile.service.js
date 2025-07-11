@@ -20,6 +20,15 @@ export class ProfileService {
       throw error;
     }
   }
+
+  async getProfileById(profileId) {
+    const response = await httpInstance.get(`/profiles/${profileId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,  // Usa el token guardado
+      }
+    });
+    return response.data;
+  }
 }
 
 export const useProfileService = () => new ProfileService();

@@ -10,13 +10,15 @@ const profileService = useProfileService();
 
 const handleSubmit = async (request) => {
   try {
-    const user = await authService.signUp({
+    // 1. Create user credentials
+    const response = await authService.signUp({
       username: request.username,
-      password: request.password
+      password: request.password,
     });
 
-    const userId = user.id;
+    const userId = response.data.id;
 
+    // 2. ✅ Build a base profile with common fields
     const profile = {
       userId,
       firstName: request.firstName,
@@ -28,24 +30,33 @@ const handleSubmit = async (request) => {
       postalCode: request.postalCode,
       country: request.country,
       role: request.role,
-      dni: request.dni,
-      preferredContactTime: request.preferredContactTime,
-      licenseNumber: request.licenseNumber,
-      specialization: request.specialization
     };
 
+    // 3. ✅ Dynamically add role-specific fields
+    if (request.role === "HomeOwner") {
+      profile.dni = request.dni;
+      profile.preferredContactTime = request.preferredContactTime;
+    } else if (request.role === "Technician") {
+      profile.licenseNumber = request.licenseNumber;
+      profile.specialization = request.specialization;
+    }
+
+    // 4. Send the correctly shaped profile object
     await profileService.createProfile(profile);
 
-    alert("Account created successfully!");
+    alert("¡Cuenta creada exitosamente!");
     router.push({ name: "sign-in" });
   } catch (error) {
+    // 💡 Pro-Tip: Log the response data from the error to see the exact validation message from the backend.
     console.error("Error during registration:", error);
-    alert("Error during registration. Please try again.");
+    if (error.response) {
+      console.error("Backend validation error:", error.response.data);
+    }
+    alert("Error during registration. Please check the console for details.");
   }
 };
 </script>
 
 <template>
-  <!-- Asegúrate que el componente acepte esta prop correctamente -->
   <SignUpForm :onSubmit="handleSubmit" />
 </template>

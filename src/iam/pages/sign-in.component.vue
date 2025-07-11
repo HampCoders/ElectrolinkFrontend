@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthenticationStore } from "../services/authentication.store.js";
+import { useAuthenticationStore } from "../services/authentication.store.js"; // Asegúrate que la ruta sea correcta
 
 import InputText from "primevue/inputtext";
 import Password from "primevue/password";
@@ -19,15 +19,15 @@ const onSignIn = async () => {
     password: password.value,
   };
 
-  const isSuccessful = await authenticationStore.signIn(request, router);
+  // La acción signIn ya se encarga de todo, solo necesitamos saber si tuvo éxito.
+  const isSuccessful = await authenticationStore.signIn(request);
 
   if (isSuccessful) {
-    await authenticationStore.restoreSession(); // 🔄 asegura que esté sincronizado
-    router.replace("/homeContracting");         // ✅ ahora redirige solo cuando ya todo está cargado
+    // Si el login fue exitoso, redirigimos al usuario.
+    router.replace("/homeContracting");
   }
 };
 </script>
-
 <template>
   <div class="signin-page">
     <div class="signin-card">
