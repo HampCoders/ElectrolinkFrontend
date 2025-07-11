@@ -4,7 +4,7 @@
     <div class="form-container p-fluid">
       <div class="field">
         <label for="street">Dirección</label>
-        <AutoComplete v-model="form.street" :suggestions="searchResults" @complete="searchAddress" placeholder="Ej: Av. Arequipa 123, Miraflores" @item-select="selectAddress" field="display_name" class="w-full">
+        <AutoComplete v-model="form.addressObj" :suggestions="searchResults" @complete="searchAddress" placeholder="Ej: Av. Arequipa 123, Miraflores" @item-select="selectAddress" optionLabel="display_name"  class="w-full">
           <template #item="slotProps">
             <div class="flex align-items-center">
               <i class="pi pi-map-marker mr-2"></i>
@@ -63,6 +63,7 @@ export default {
     return {
       store: usePropertyStore(),
       form: {
+        addressObj   : null,
         street: '',
         district: '',
         region: '',
