@@ -7,8 +7,8 @@
   "request": {
     "title": "Solicitudes de Servicio",
     "formTitle": "Crear Nueva Solicitud",
-    "clientId": "ID del Cliente",
-    "technicianId": "ID del Técnico",
+    "clientId": "ID del Technician",
+    "technicianId": "ID del Client",
     "propertyId": "ID de la Propiedad",
     "serviceId": "ID del Servicio",
     "description": "Descripción del Problema",

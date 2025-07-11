@@ -7,8 +7,8 @@
   "request": {
     "title": "Service Requests",
     "formTitle": "Create New Request",
-    "clientId": "Client ID",
-    "technicianId": "Technician ID",
+    "clientId": "Technician ID",
+    "technicianId": "Client ID",
     "propertyId": "Property ID",
     "serviceId": "Service ID",
     "description": "Problem Description",
