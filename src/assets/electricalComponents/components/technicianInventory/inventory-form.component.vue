@@ -5,7 +5,7 @@
       <form @submit.prevent="onSubmit" class="flex flex-column gap-4">
         <div class="field">
           <label for="component" class="font-bold block mb-2">Buscar Componente</label>
-          <AutoComplete v-model="form.component" :suggestions="filteredComponents" @complete="searchComponent" field="name" placeholder="ej: Resistencia 220 Ohm" :class="{'p-invalid': submitted && !form.component}" class="w-full">
+          <AutoComplete v-model="form.component" :suggestions="filteredComponents" @complete="searchComponent" optionLabel="name" placeholder="ej: Resistencia 220 Ohm" :class="{'p-invalid': submitted && !form.component}" class="w-full">
             <template #item="slotProps">
               <div>{{ slotProps.item.name }}</div>
             </template>
