@@ -52,7 +52,7 @@ const cambiarMenuLabel = computed(() =>
 
 /* ────────────── Ciclo de vida ────────────── */
 onMounted(async () => {
-  auth.initializeAuth();
+  await auth.initializeAuth();
   sessionRestored.value = true;
 });
 
@@ -89,7 +89,7 @@ function closeMobileMenu() { mobileMenuVisible.value = false; }
           <h1 class="ml-2 titulo-electrolink">ElectroLink</h1>
         </template>
 
-        <template #end>
+        <template #end >
           <template v-if="isSignedIn">
             <pv-button
                 v-if="cambiarMenuLabel"
@@ -101,6 +101,7 @@ function closeMobileMenu() { mobileMenuVisible.value = false; }
                 label="Cerrar sesión"
                 @click="logout"
                 class="boton-cambiar-menu ml-2 d-mobile-none"
+                style="margin: 0 1.5rem"
             />
             <language-switcher class="language-switcher d-mobile-none" />
           </template>
@@ -148,6 +149,7 @@ function closeMobileMenu() { mobileMenuVisible.value = false; }
             {{ item.label }}
           </router-link>
         </li>
+        <language-switcher class="language-switcher d-desktop-none" />
       </ul>
       <hr />
       <pv-button
