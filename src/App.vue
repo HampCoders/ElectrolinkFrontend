@@ -4,6 +4,9 @@ import { computed, onMounted, ref } from 'vue';
 import LanguageSwitcher from './public/components/language-switcher.vue';
 import FooterContent    from './public/components/footer-content.vue';
 import { useAuthenticationStore } from './iam/services/authentication.store.js';
+import PlansPage from "@/subscriptions/pages/PlansPage.vue";
+import CheckoutSuccess from "@/subscriptions/pages/CheckoutSuccess.vue";
+import ServiceOperationPage from "@/monitoring/pages/ServiceOperationPage.vue";
 import { Button as PvButton } from 'primevue';
 import Drawer from 'primevue/sidebar';
 import router from '@/router/index.js';
@@ -35,7 +38,9 @@ const itemsTechnician = computed(() => [
   { label: 'Dashboard',    to: '/analytics',                          icon: 'pi pi-chart-bar' },
   { label: 'Componentes',  to: `/electrical-components/${auth.technicianId}`,  icon: 'pi pi-box' },
   { label: 'Horarios',     to: `/schedules/${auth.technicianId}`,                          icon: 'pi pi-calendar' },
-  { label: 'Servicios',    to: `/services/${auth.technicianId}`, icon: 'pi pi-cog' }
+  { label: 'Servicios',    to: `/services/${auth.technicianId}`, icon: 'pi pi-cog' },
+  { label: 'Monitoreo',    to: `/service-operations`, icon: 'pi pi-check' },
+  { label: 'Plans',    to: `/plans`, icon: 'pi pi-cog' }
 ]);
 
 const activeItems = computed(() =>
