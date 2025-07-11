@@ -37,7 +37,7 @@ const itemsTechnician = computed(() => [
   { label: 'Horarios',     to: `/schedules/${auth.technicianId}`,                          icon: 'pi pi-calendar' },
   { label: 'Servicios',    to: `/services/${auth.technicianId}`, icon: 'pi pi-cog' },
   { label: 'Monitoreo',    to: `/service-operations`, icon: 'pi pi-check' },
-  { label: 'Plans',    to: `/plans`, icon: 'pi pi-cog' }
+  { label: 'Plans',    to: `/plans`, icon: 'pi-angle-double-up' }
 ]);
 
 const activeItems = computed(() =>
