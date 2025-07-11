@@ -1,5 +1,8 @@
 // src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router'
+import PlansPage from "@/subscriptions/pages/PlansPage.vue";
+import CheckoutSuccess from "@/subscriptions/pages/CheckoutSuccess.vue";
+import ServiceOperationPage from "@/monitoring/pages/ServiceOperationPage.vue";
 
 // ───────────────────────────────────────
 // 1.  Páginas públicas
