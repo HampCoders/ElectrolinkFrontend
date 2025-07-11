@@ -2,94 +2,107 @@
   <div class="p-4">
     <h1>Inventario del Técnico</h1>
 
-    <!-- Contenedor principal con v-if -->
-    <!-- Solo se mostrará este bloque cuando technicianId tenga un valor (no sea null) -->
+    <!-- Sólo cuando existe id -->
     <div v-if="technicianId">
       <p>ID del Técnico: <strong>{{ technicianId }}</strong></p>
 
       <div class="grid mt-4">
         <div class="col-12 md:col-5">
-          <!-- Ahora garantizamos que technicianId es un String cuando este componente se renderiza -->
-          <InventoryForm :technician-id="technicianId" @item-added="handleItemAdded" />
+          <InventoryForm
+              :technician-id="technicianId"
+              @item-added="handleItemAdded" />
         </div>
+
         <div class="col-12 md:col-7">
           <Message v-if="error" severity="error">{{ error }}</Message>
+
           <InventoryList
-              :inventory-items="inventory ? inventory.stockItems : []"
+              :inventory-items="inventory?.stockItems ?? []"
               :is-loading="isLoading"
               @update-quantity="handleUpdateQuantity"
+              @update-item="handleUpdateItem"
               @remove-item="handleRemoveItem"
               :key="componentKey" />
         </div>
       </div>
     </div>
 
-    <!-- Opcional: Muestra un mensaje de carga o de error mientras no haya ID -->
+    <!-- Mensajes mientras no hay ID -->
     <div v-else>
-      <Message v-if="!error" severity="info">Cargando datos del técnico...</Message>
+      <Message v-if="!error" severity="info">
+        Cargando datos del técnico...
+      </Message>
       <Message v-if="error" severity="error">{{ error }}</Message>
     </div>
-
   </div>
 </template>
 
 <script>
-import { useTechnicianInventoryStore } from '../store/technician-inventory.store.js';
-import InventoryForm from '../components/technicianInventory/inventory-form.component.vue';
-import InventoryList from '../components/technicianInventory/inventory-list.component.vue';
+import { useTechnicianInventoryStore }
+  from '../store/technician-inventory.store.js';
+import InventoryForm from
+      '../components/technicianInventory/inventory-form.component.vue';
+import InventoryList from
+      '../components/technicianInventory/inventory-list.component.vue';
 import Message from 'primevue/message';
 
 export default {
   name: 'technician-inventory-page',
   components: { InventoryForm, InventoryList, Message },
+
   data() {
     return {
       store: useTechnicianInventoryStore(),
       technicianId: null,
-      componentKey: 0
+      componentKey: 0        // para forzar refresco tras añadir ítem
     };
   },
+
   computed: {
-    inventory() {
-      return this.store.inventory;
+    inventory() { return this.store.inventory; },
+    isLoading() { return this.store.isLoading; },
+    error()     { return this.store.error; }
+  },
+
+  /** ──────────────────────────────  MÉTODOS  ─────────────────────────── */
+  methods: {
+    /* después de añadir un ítem */
+    handleItemAdded() { this.componentKey += 1; },
+
+    /* + / –  cantidad  */
+    handleUpdateQuantity({ componentId, newQuantity }) {
+      this.store.updateStock(
+          this.technicianId,
+          componentId,
+          { newQuantity }                     // 👈 nombre que espera la API
+      );
     },
-    isLoading() {
-      return this.store.isLoading;
+
+    /* ✏️  lápiz → cantidad y umbral */
+    handleUpdateItem({ componentId, quantityAvailable, alertThreshold }) {
+      this.store.updateStock(
+          this.technicianId,
+          componentId,
+          {                                    // 👈 ambos con su prefijo “new…”
+            newQuantity:        quantityAvailable,
+            newAlertThreshold:  alertThreshold
+          }
+      );
     },
-    error() {
-      return this.store.error;
+
+    /* borrado: ya confirmado en el hijo */
+    handleRemoveItem(componentId) {
+      this.store.removeStock(this.technicianId, componentId);
     }
   },
-  methods: {
-    handleItemAdded() {
-      this.componentKey += 1;
-    },
-    handleUpdateQuantity(event) {
-      const { componentId, newQuantity } = event;
-      const itemToUpdate = this.inventory.stockItems.find(i => i.componentId === componentId);
-      if (!itemToUpdate) return;
 
-      const updateData = {
-        newQuantity: newQuantity,
-        newAlertThreshold: itemToUpdate.alertThreshold
-      };
-      this.store.updateStock(this.technicianId, componentId, updateData);
-    },
-    handleRemoveItem(componentId) {
-      // Usar un modal de PrimeVue en lugar de confirm() es una mejor práctica,
-      // pero confirm() funciona para pruebas.
-      if (!confirm('¿Estás seguro de que deseas eliminar este ítem?')) return;
-      this.store.removeStock(this.technicianId, componentId);
-    },
-  },
+  /** ─────────────────────────────  CICLO VIDA  ───────────────────────── */
   created() {
-    // Obtener el id desde la ruta
     const idFromRoute = this.$route.params.id;
     if (idFromRoute) {
       this.technicianId = idFromRoute;
-      this.store.fetchInventory(this.technicianId);  // Llamas al método para obtener el inventario
+      this.store.fetchInventory(this.technicianId);
     } else {
-      console.error("No se encontró el ID del técnico en la ruta.");
       this.store.$patch({ error: 'ID de técnico no especificado en la URL.' });
     }
   }

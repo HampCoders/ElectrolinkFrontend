@@ -1,120 +1,110 @@
-<script>
-import LanguageSwitcher from "./public/components/language-switcher.vue";
-import FooterContent from "./public/components/footer-content.vue";
-import { useAuthenticationStore } from "./iam/services/authentication.store.js";
-import {Button as PvButton} from "primevue";
+<script setup>
+/* ────────────── Imports ────────────── */
+import { computed, onMounted, ref } from 'vue';
+import LanguageSwitcher from './public/components/language-switcher.vue';
+import FooterContent    from './public/components/footer-content.vue';
+import { useAuthenticationStore } from './iam/services/authentication.store.js';
+import { Button as PvButton } from 'primevue';
+import Drawer from 'primevue/sidebar';
+import router from '@/router/index.js';
 
-export default {
-  name: "App",
-  components: {
-    LanguageSwitcher,
-    FooterContent,
-    PvButton
-  },
-  data() {
-    return {
-      drawer: false,
-      isBuyer: false,
-      sessionRestored: false,
-    };
-  },
-  computed: {
-    authenticationStore() {
-      return useAuthenticationStore();
-    },
-    isSignedIn() {
-      return this.authenticationStore.isSignedIn;
-    },
-    activeItems() {
-      return this.isBuyer ? this.items_Contracting : this.items_Technician;
-    },
-    cambiarMenuLabel() {
-      return this.isBuyer ? "Cambiar a Técnico" : "Cambiar a Contratista";
-    },
+/* ────────────── Estado global ────────────── */
+const auth = useAuthenticationStore();
 
-    // ✅ MENÚ DE CONTRATISTA DINÁMICO
-    items_Contracting() {
-      // Obtenemos el ID desde el getter del store
-      const id = this.authenticationStore.homeOwnerId;
-      return [
-        { label: "Inicio", to: "/homeContracting", icon: "pi pi-home" },
-        // Ejemplo de ruta dinámica para el contratista
-        { label: "Peticiones", to: `/request/owner/${id}`, icon: "pi pi-info-circle" },
-        { label: "Propiedades", to: "/property", icon: "pi pi-map" },
-        { label: "Servicios", to: "/services", icon: "pi pi-cog" }
-      ];
-    },
+/* ────────────── Estado local ────────────── */
+const sessionRestored   = ref(false);
+const mobileMenuVisible = ref(false);            /* 👈 sidebar */
 
-    // ✅ MENÚ DE TÉCNICO DINÁMICO
-    items_Technician() {
-      // Obtenemos el ID desde el getter del store
-      const id = this.authenticationStore.technicianId;
+/* ────────────── Derivados ────────────── */
+const isSignedIn      = computed(() => auth.isSignedIn);
+const isTechnician    = computed(() => !!auth.technicianId);
+const isHomeOwner     = computed(() => !!auth.homeOwnerId);
+const hasValidProfile = computed(() => isTechnician.value !== isHomeOwner.value);
 
-      return [
-        { label: "Inicio", to: "/homeTechnician", icon: "pi pi-home" },
-        {
-          label: "Inventario",
-          // Se inyecta el ID del técnico en la ruta
-          to: `/technician-inventory/${id}`,
-          icon: "pi pi-info-circle",
-        },
-        { label: "Dashboard", to: "/analytics", icon: "pi pi-chart-bar" },
-        {
-          label: "Componentes",
-          to: "/electrical-component-registration",
-          icon: "pi pi-box",
-        },
-        { label: "Horarios", to: "/schedules", icon: "pi pi-calendar" },
-        { label: "Servicios", to: "/services", icon: "pi pi-cog" }
-      ];
-    },
-  },
-  async mounted() {
-    this.authenticationStore.initializeAuth();
-    this.isBuyer = localStorage.getItem("isBuyer") === "true";
-    this.sessionRestored = true;
-  },
-  watch: {
-    "authenticationStore.isSignedIn"(newVal) {
-      if (newVal) {
-        this.isBuyer = localStorage.getItem("isBuyer") === "true";
-      }
-    },
-  },
-  methods: {
-    cambiarMenu() {
-      this.isBuyer = !this.isBuyer;
-      localStorage.setItem("isBuyer", this.isBuyer);
+/* Menús */
+const itemsContracting = computed(() => [
+  { label: 'Inicio',       to: '/homeContracting',                 icon: 'pi pi-home' },
+  { label: 'Peticiones',   to: `/request/owner/${auth.homeOwnerId}`, icon: 'pi pi-info-circle' },
+  { label: 'Propiedades',  to: `/property/${auth.homeOwnerId}`,      icon: 'pi pi-map' },
+  { label: 'Servicios',    to: '/services',                          icon: 'pi pi-cog' }
+]);
 
-      this.$router.push(this.isBuyer ? "/homeContracting" : "/homeTechnician");
-    },
-    logout() {
-      this.authenticationStore.signOut(this.$router);
-      localStorage.removeItem("isBuyer");
-    },
-  },
-};
+const itemsTechnician = computed(() => [
+  { label: 'Inicio',       to: '/homeTechnician',                     icon: 'pi pi-home' },
+  { label: 'Inventario',   to: `/technician-inventory/${auth.technicianId}`, icon: 'pi pi-info-circle' },
+  { label: 'Dashboard',    to: '/analytics',                          icon: 'pi pi-chart-bar' },
+  { label: 'Componentes',  to: '/electrical-component-registration',  icon: 'pi pi-box' },
+  { label: 'Horarios',     to: '/schedules',                          icon: 'pi pi-calendar' },
+  { label: 'Servicios',    to: '/services',                           icon: 'pi pi-cog' }
+]);
+
+const activeItems = computed(() =>
+    !hasValidProfile.value ? [] :
+        isHomeOwner.value      ? itemsContracting.value
+            : itemsTechnician.value
+);
+
+const cambiarMenuLabel = computed(() =>
+    isTechnician.value && isHomeOwner.value
+        ? (isHomeOwner.value ? 'Cambiar a Técnico' : 'Cambiar a Contratista')
+        : ''
+);
+
+/* ────────────── Ciclo de vida ────────────── */
+onMounted(async () => {
+  auth.initializeAuth();
+  sessionRestored.value = true;
+});
+
+/* ────────────── Métodos ────────────── */
+function cambiarMenu() {
+  if (!isTechnician.value || !isHomeOwner.value) return;
+  router.push(isHomeOwner.value ? '/homeTechnician' : '/homeContracting');
+}
+
+function logout() {
+  auth.signOut(router);
+}
+
+function openMobileMenu()  { mobileMenuVisible.value = true; }
+function closeMobileMenu() { mobileMenuVisible.value = false; }
 </script>
 
 <template>
   <pv-toast />
   <pv-confirm-dialog />
 
-  <!-- Espera a que se restaure la sesión para mostrar layout -->
   <template v-if="sessionRestored">
     <!-- NAVBAR -->
     <header>
       <pv-toolbar class="pv-toolbar-azul">
         <template #start>
+          <!-- Burger solo en móviles -->
+          <pv-button
+              icon="pi pi-bars"
+              class="burger d-desktop-none mr-2"
+              v-if="isSignedIn && hasValidProfile"
+              @click="openMobileMenu"
+          />
           <h1 class="ml-2 titulo-electrolink">ElectroLink</h1>
         </template>
 
         <template #end>
           <template v-if="isSignedIn">
-            <pv-button :label="cambiarMenuLabel" @click="cambiarMenu" class="boton-cambiar-menu" />
-            <pv-button label="Cerrar sesión" @click="logout" class="boton-cambiar-menu ml-2" />
-            <language-switcher class="language-switcher" />
+            <pv-button
+                v-if="cambiarMenuLabel"
+                :label="cambiarMenuLabel"
+                @click="cambiarMenu"
+                class="boton-cambiar-menu d-mobile-none"
+            />
+            <pv-button
+                label="Cerrar sesión"
+                @click="logout"
+                class="boton-cambiar-menu ml-2 d-mobile-none"
+            />
+            <language-switcher class="language-switcher d-mobile-none" />
           </template>
+
           <template v-else>
             <router-link :to="{ name: 'sign-in' }" class="ml-2">
               <pv-button label="Sign In" class="boton-cambiar-menu" />
@@ -127,22 +117,45 @@ export default {
       </pv-toolbar>
     </header>
 
-    <!-- MENÚ SOLO SI YA ESTÁ AUTENTICADO -->
-    <div v-if="isSignedIn" class="botones-centro">
-      <pv-button
+    <!-- MENÚ DESKTOP -->
+    <div v-if="isSignedIn && hasValidProfile" class="botones-centro">
+      <router-link
           v-for="item in activeItems"
           :key="item.label"
-          class="boton-personalizado"
-          as-child
-          v-slot="slotProps"
+          :to="item.to"
+          class="no-underline"
       >
-        <router-link :to="item.to" :class="slotProps['class']">
-          {{ item.label }}
-        </router-link>
-      </pv-button>
+        <pv-button
+            :icon="item.icon"
+            :label="item.label"
+            class="boton-personalizado "
+        />
+      </router-link>
     </div>
 
-    <!-- CONTENIDO -->
+    <!-- MENÚ MÓVIL – Sidebar -->
+    <Drawer
+        v-model:visible="mobileMenuVisible"
+        position="left"
+        class="pv-sidebar-menu"
+        @hide="closeMobileMenu"
+    >
+      <h3 class="mb-3">Menú</h3>
+      <ul class="sidebar-list">
+        <li v-for="item in activeItems" :key="item.label">
+          <router-link :to="item.to" @click="closeMobileMenu">
+            <i :class="item.icon" class="mr-2" />
+            {{ item.label }}
+          </router-link>
+        </li>
+      </ul>
+      <hr />
+      <pv-button
+          label="Cerrar sesión"
+          class="p-button-text p-button-danger w-full mt-3"
+          @click="logout"
+      />
+    </Drawer>
     <main>
       <div class="bg-lavander p-4 min-h-screen">
         <router-view />
@@ -150,64 +163,76 @@ export default {
     </main>
 
     <!-- FOOTER -->
-    <footer>
-      <footer-content />
-    </footer>
+    <footer><footer-content /></footer>
   </template>
 
-  <!-- LOADER si no está restaurado -->
   <template v-else>
     <div class="text-white text-center p-6">Cargando sesión...</div>
   </template>
 </template>
 
 <style scoped>
-.ml-2 {
-  margin-left: 0.5rem;
-}
+/* Breakpoint helpers */
+.d-mobile-none { display: none; } /* Hidden on mobile */
+.d-desktop-none { display: block; } /* Shown on mobile */
 
-.titulo-electrolink {
-  font-size: 2.2rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-  line-height: 1.1;
-}
-
-header {
-  background-color: #0d47a1 !important;
-}
-
+/* Default state for desktop menu (hidden on mobile) */
 .botones-centro {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  background-color: #ffe082 !important;
-  border-radius: 0;
-  padding: 1rem 0;
-  margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
+  display: none; /* Hidden by default (mobile) */
 }
 
-.pv-toolbar-azul {
-  background-color: #1976d2 !important;
+@media (min-width: 768px) {
+  .d-mobile-none   { display: block; } /* Shown on desktop */
+  .d-desktop-none  { display: none; } /* Hidden on desktop */
+
+  /* Desktop menu specific styles (shown on desktop) */
+  .botones-centro {
+    display: flex; /* Shown as flex container on desktop */
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background-color: #ffe082;
+    padding: 1rem 0;
+    margin: 0 auto;
+    width: 100%;
+  }
 }
 
+/* Other existing styles */
 .boton-personalizado {
-  background-color: #fff !important;
-  color: #1976d2 !important;
-  border: 1px solid #1976d2 !important;
+  background-color: #fff;
+  color: #1976d2;
+  border: 1px solid #1976d2;
 }
 
 .boton-cambiar-menu {
-  background-color: #ffe082 !important;
-  color: #1976d2 !important;
-  border: 1px solid #1976d2 !important;
+  background-color: #ffe082;
+  color: #1976d2;
+  border: 1px solid #1976d2;
 }
 
-.language-switcher {
-  margin-left: 0.5rem;
+.burger {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-list li {
+  margin-bottom: 1rem;
+}
+
+.sidebar-list a {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 </style>

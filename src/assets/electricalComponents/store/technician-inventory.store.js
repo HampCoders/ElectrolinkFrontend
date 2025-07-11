@@ -3,12 +3,10 @@ import { ref } from 'vue';
 import { technicianInventoryService } from '../service/technician-inventory.service.js';
 
 export const useTechnicianInventoryStore = defineStore('inventory', () => {
-    // --- STATE ---
     const inventory = ref(null); // Contendrá el objeto TechnicianInventory
     const isLoading = ref(false);
     const error = ref(null);
 
-    // --- ACTIONS ---
     async function fetchInventory(technicianId) {
         if (!technicianId) return;
         isLoading.value = true;
@@ -29,7 +27,6 @@ export const useTechnicianInventoryStore = defineStore('inventory', () => {
         error.value = null;
         try {
             await technicianInventoryService.addStockItem(technicianId, stockData);
-            // Tras añadir, recargamos el inventario para ver el cambio.
             await fetchInventory(technicianId);
         } catch(e) {
             error.value = "Error al añadir el componente al stock.";
@@ -43,7 +40,6 @@ export const useTechnicianInventoryStore = defineStore('inventory', () => {
         isLoading.value = true;
         error.value = null;
         try {
-            // El servicio devuelve el inventario actualizado, así que lo asignamos directamente.
             inventory.value = await technicianInventoryService.updateStockItem(technicianId, componentId, updateData);
         } catch (e) {
             error.value = "Error al actualizar el stock.";
@@ -58,7 +54,6 @@ export const useTechnicianInventoryStore = defineStore('inventory', () => {
         error.value = null;
         try {
             await technicianInventoryService.removeStockItem(technicianId, componentId);
-            // Tras eliminar, recargamos para ver los cambios.
             await fetchInventory(technicianId);
         } catch(e) {
             error.value = "Error al eliminar el componente del stock.";

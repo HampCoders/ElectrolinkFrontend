@@ -17,12 +17,19 @@
 
       <div class="details-section">
         <h2>Detalles</h2>
-        <PropertyDetail :property="selectedProperty" />
+        <PropertyDetail
+            :property="selectedProperty"
+            @edit="openEditDialog"
+        />
       </div>
     </div>
   </div>
 
-  <PropertyCreateDialog :visible="isDialogVisible" @close="isDialogVisible = false" />
+  <PropertyDialog
+      :visible="isDialogVisible"
+      :mode="dialogMode"
+      :initial="editingProp"
+      @close="isDialogVisible=false" />
 </template>
 
 <script>
@@ -34,15 +41,18 @@ import PropertyCreateDialog from '../components/property/property-create-dialog.
 import Button from 'primevue/button';
 import Divider from 'primevue/divider';
 import Tooltip from 'primevue/tooltip';
+import PropertyDialog from '../components/property/property-form-dialog.component.vue'
 
 export default {
   name: 'property-management-page',
-  components: { PropertyMap, PropertyList, PropertyDetail, PropertyCreateDialog, Button, Divider },
+  components: { PropertyMap, PropertyList, PropertyDetail, PropertyCreateDialog, Button, Divider ,PropertyDialog},
   directives: { Tooltip },
   data() {
     return {
       store: usePropertyStore(),
       isDialogVisible: false,
+      dialogMode  : 'create',
+      editingProp : null
     };
   },
   computed: {
@@ -60,8 +70,15 @@ export default {
     onPropertySelected(propertyId) {
       this.store.selectPropertyById(propertyId);
     },
-    openCreateDialog() {
-      this.isDialogVisible = true;
+    openCreateDialog () {
+      this.dialogMode  = 'create'
+      this.editingProp = null
+      this.isDialogVisible = true
+    },
+    openEditDialog (prop) {
+      this.dialogMode  = 'edit'
+      this.editingProp = prop
+      this.isDialogVisible = true
     }
   },
   created() {
