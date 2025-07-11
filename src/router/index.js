@@ -48,7 +48,7 @@ const routes = [
   { path: '/analytics',                     name: 'analytics-management',          component: AnalyticsManagementComponent, meta: { title: 'Analytics Management' } },
   { path: '/electrical-component-registration', name: 'electrical-component-registration', component: ComponentManagementPage,    meta: { title: 'Registro de Componente Eléctrico' } },
   { path: '/electrical-component-type',        name: 'electrical-component-type',        component: ComponentTypeManagementPage, meta: { title: 'Registro de Tipo de Componente Eléctrico' } },
-  { path: '/technician-inventory/:technicianId?',  name: 'technician-inventory', component: TechnicianInventoryPage,  meta: { title: 'Technician Inventory' } },
+  { path: '/technician-inventory/:id?',  name: 'technician-inventory', component: TechnicianInventoryPage,  meta: { title: 'Technician Inventory' } },
   { path: '/property', component: PropertyManagementPage, meta: { title: 'Property Management' } },
 
     // SDP (Service Design and Planning)

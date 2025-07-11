@@ -1,13 +1,15 @@
 <script>
 import LanguageSwitcher from "./public/components/language-switcher.vue";
 import FooterContent from "./public/components/footer-content.vue";
-import { useAuthenticationStore } from "../src/iam/services/authentication.store.js";
+import { useAuthenticationStore } from "./iam/services/authentication.store.js";
+import {Button as PvButton} from "primevue";
 
 export default {
   name: "App",
   components: {
     LanguageSwitcher,
     FooterContent,
+    PvButton
   },
   data() {
     return {
@@ -29,20 +31,31 @@ export default {
     cambiarMenuLabel() {
       return this.isBuyer ? "Cambiar a Técnico" : "Cambiar a Contratista";
     },
+
+    // ✅ MENÚ DE CONTRATISTA DINÁMICO
     items_Contracting() {
+      // Obtenemos el ID desde el getter del store
+      const id = this.authenticationStore.homeOwnerId;
       return [
         { label: "Inicio", to: "/homeContracting", icon: "pi pi-home" },
-        { label: "Peticiones", to: "/about", icon: "pi pi-info-circle" },
+        // Ejemplo de ruta dinámica para el contratista
+        { label: "Peticiones", to: `/request/owner/${id}`, icon: "pi pi-info-circle" },
         { label: "Propiedades", to: "/property", icon: "pi pi-map" },
         { label: "Servicios", to: "/services", icon: "pi pi-cog" }
       ];
     },
+
+    // ✅ MENÚ DE TÉCNICO DINÁMICO
     items_Technician() {
+      // Obtenemos el ID desde el getter del store
+      const id = this.authenticationStore.technicianId;
+
       return [
         { label: "Inicio", to: "/homeTechnician", icon: "pi pi-home" },
         {
           label: "Inventario",
-          to: "/technician-inventory/0a8237b1-fad7-400a-ad8d-22a2e64a9408",
+          // Se inyecta el ID del técnico en la ruta
+          to: `/technician-inventory/${id}`,
           icon: "pi pi-info-circle",
         },
         { label: "Dashboard", to: "/analytics", icon: "pi pi-chart-bar" },
@@ -57,7 +70,7 @@ export default {
     },
   },
   async mounted() {
-    await this.authenticationStore.restoreSession();
+    this.authenticationStore.initializeAuth();
     this.isBuyer = localStorage.getItem("isBuyer") === "true";
     this.sessionRestored = true;
   },
@@ -72,6 +85,7 @@ export default {
     cambiarMenu() {
       this.isBuyer = !this.isBuyer;
       localStorage.setItem("isBuyer", this.isBuyer);
+
       this.$router.push(this.isBuyer ? "/homeContracting" : "/homeTechnician");
     },
     logout() {
