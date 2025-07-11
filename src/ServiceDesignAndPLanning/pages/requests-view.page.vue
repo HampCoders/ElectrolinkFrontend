@@ -3,9 +3,9 @@
     <h2 class="text-2xl font-bold mb-4">{{ $t('request.title') }}</h2>
 
     <div class="flex gap-3 mb-4">
-      <Button label="Crear Petición" icon="pi pi-plus" @click="showForm = !showForm" />
-      <Button label="Buscar por Cliente" icon="pi pi-user" @click="toggleSearchClient" />
-      <Button label="Buscar por ID" icon="pi pi-search" @click="toggleSearchId" />
+      <Button :label="$t('request.create')" icon="pi pi-plus" @click="showForm = !showForm" />
+      <Button :label="$t('request.searchByClient')" icon="pi pi-user" @click="toggleSearchClient" />
+      <Button :label="$t('request.searchById')" icon="pi pi-search" @click="toggleSearchId" />
     </div>
 
     <div v-if="showForm">

@@ -4,7 +4,12 @@
     "use": "utilizando",
     "author": "por el Equipo de Desarrollo de {brand}"
   },
+
+
   "request": {
+    "create": "Crear Petición",
+    "searchByClient": "Buscar por Cliente",
+    "searchById": "Buscar por ID",
     "title": "Solicitudes de Servicio",
     "formTitle": "Crear Nueva Solicitud",
     "clientId": "ID del Técnico",

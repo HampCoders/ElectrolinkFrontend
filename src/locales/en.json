@@ -4,7 +4,12 @@
     "use": "using",
     "author": "by {brand} Developer Team"
   },
+
+
   "request": {
+    "create": "Create Request",
+    "searchByClient": "Search by Client",
+    "searchById": "Search by ID",
     "title": "Service Requests",
     "formTitle": "Create New Request",
     "clientId": "Technician ID",
